@@ -4,7 +4,7 @@ enum layer_number {
   _QWERTY = 0,
   _LOWER,
   _RAISE,
-  _ADJUST,
+  _SYSTM,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -47,8 +47,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_LOWER] = LAYOUT(
   KC_F1  , KC_F2  , KC_F3  , KC_F4  , KC_F5  , KC_F6   ,                  KC_F7   , KC_F8   , KC_F9  , KC_F10 , KC_F11 , KC_F12 ,
-  MO(_ADJUST), _______, KC_UP  , _______, _______, KC_VOLU ,              KC_EQL  , KC_7    , KC_8   , KC_9   , _______, _______,
-  KC_CAPS, KC_LEFT, KC_DOWN, KC_RGHT,KC_MPLY, KC_VOLD ,                   KC_MINS , KC_4    , KC_5   , KC_6   , _______, _______,
+  _______, _______, KC_UP  , _______, _______, KC_VOLU ,              KC_EQL  , KC_7    , KC_8   , KC_9   , _______, _______,
+  _______, KC_LEFT, KC_DOWN, KC_RGHT,KC_MPLY, KC_VOLD ,                   KC_MINS , KC_4    , KC_5   , KC_6   , _______, _______,
   _______, KC_UNDO, KC_DEL, KC_COPY, KC_PSTE, KC_BSPC, _______,  _______, KC_0    , KC_1    , KC_2   , KC_3   , KC_PIPE, _______, 
                              _______, _______, _______, _______, _______,  _______, _______, _______
 ),
@@ -70,35 +70,40 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_RAISE] = LAYOUT(
   KC_F1   , KC_F2   , KC_F3  , KC_F4  , KC_F5  , KC_F6  ,                   KC_F7   , KC_F8   , KC_F9  , KC_F10 , KC_F11 , KC_F12 ,
   _______ , _______ , KC_UP  , _______, _______, _______,                   _______, _______, _______, _______, _______, _______,
-  KC_CAPS , KC_LEFT , KC_DOWN, KC_RGHT, KC_HOME, KC_END ,                   KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, _______, KC_GRV,
+  _______ , KC_LEFT , KC_DOWN, KC_RGHT, KC_HOME, KC_END ,                   KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, _______, KC_GRV,
   _______ , KC_TILD , KC_ASTR, KC_NUBS, KC_PMNS, KC_UNDS, _______, _______, KC_UNDS, KC_PMNS, KC_NUBS, KC_ASTR, KC_BSLS, _______,
                              _______, _______, _______,  _______, _______,  _______, _______, _______
 ),
 /* ADJUST
  * ,-----------------------------------------.                    ,-----------------------------------------.
- * |      |      |      |      |      |      |                    |      |      |      |      |      |      |
+ * |      |      |      |      |      |      |                    | BOOT |      |      |      |      |      |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |      |      |      |      |      |      |                    |      |      |      |      |      |      |
+ * |      |      |      |      |      | BR + |                    |      |      |      |      |      | PAUS |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |      |      |      |      |      |      |-------.    ,-------|      |      |RGB ON| HUE+ | SAT+ | VAL+ |
+ * | caps |      |      |      |      | BR - |-------.    ,-------|      |      |      |      |      |      |
  * |------+------+------+------+------+------|       |    |       |------+------+------+------+------+------|
- * |      |      |      |      |      |      |-------|    |-------|      |      | MODE | HUE- | SAT- | VAL- |
+ * |      |      |      |      | F13  |      |-------|    |-------|      | F14  |      |      |      |      |
  * `-----------------------------------------/       /     \      \-----------------------------------------'
  *                   | LAlt | LGUI |LOWER | /Space  /       \Enter \  |RAISE |BackSP| RGUI |
  *                   |      |      |      |/       /         \      \ |      |      |      |
  *                   `----------------------------'           '------''--------------------'
+ *
+ * PAUS = mapped to system lock by OS
+ * F13 = discord deafen
+ * F14 = discord mute
+ *
  */
-  [_ADJUST] = LAYOUT(
-  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  [_SYSTM] = LAYOUT(
+  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   QK_BOOT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_BRIU,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PAUS,
+  KC_CAPS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_BRID,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_F13 , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_F14 , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                              _______, _______, _______, _______, _______,  _______, _______, _______
   )
 };
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-  return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
+  return update_tri_layer_state(state, _LOWER, _RAISE, _SYSTM);
 }
 
 //SSD1306 OLED update loop, make sure to enable OLED_ENABLE=yes in rules.mk
@@ -132,8 +137,8 @@ bool oled_task_user(void) {
         case _RAISE:
             oled_write("SYMBL\n\n\n\n\n", false);
             break;
-        case _ADJUST:
-            oled_write("FALSE\n\n\n\n\n", false);
+        case _SYSTM:
+            oled_write("SYSTM\n\n\n\n\n", false);
             break;
         }
 
