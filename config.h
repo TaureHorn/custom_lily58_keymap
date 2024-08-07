@@ -26,5 +26,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define QUICK_TAP_TERM 0
 #define TAPPING_TERM 100
 
-#define OLED_BRIGHTNESS 50
+#define OLED_BRIGHTNESS 16
 #define OLED_TIMEOUT 300000

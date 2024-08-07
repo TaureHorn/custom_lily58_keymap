@@ -37,11 +37,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
  * |  F21 |      |  UP  |      | vol- | vol+ |                    |  +=  |  6   |  8   |  9   |      |      |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * | caps | left | down | right| play |      |-------.    ,-------|   -  |  4   |   5  |  6   |      |  "   |
+ * | caps | left | down | right| play |      |-------.    ,-------|   -  |  4   |  5   |  6   |      |  "   |
  * |------+------+------+------+------+------|   [   |    |    ]  |------+------+------+------+------+------|
- * |      | undo | del  | copy | paste| bksp |-------|    |-------|   0  |  1   |   2  |  3   | pipe |      |
+ * |      | undo | del  | copy | paste| bksp |-------|    |-------|   0  |  1   |  2   |  3   | pipe |      |
  * `-----------------------------------------/       /     \      \-----------------------------------------'
- *                   | LAlt | LGUI |LOWER | /Enter/       \Enter \  |RAISE |BackSP| RCTL |
+ *                   | LAlt | LGUI | LOWER |/ Enter /       \Enter \  |RAISE |BackSP|  .   |
  *                   |      |      |      |/       /         \      \ |      |      |      |
  *                   `----------------------------'           '------''--------------------'
  *                          
@@ -52,7 +52,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_F21 , _______, KC_UP  , _______, KC_VOLD , KC_VOLU ,              KC_EQL  , KC_7    , KC_8   , KC_9   , _______, _______,
   _______, KC_LEFT, KC_DOWN, KC_RGHT,KC_MPLY, _______,                   KC_MINS , KC_4    , KC_5   , KC_6   , _______, LSFT(KC_2),
   _______, KC_UNDO, KC_DEL, KC_COPY, KC_PSTE, KC_BSPC, KC_LBRC,  KC_RBRC, KC_0    , KC_1    , KC_2   , KC_3   , KC_PIPE, _______, 
-                             _______, _______, _______, KC_ENT, _______,  _______, _______, _______
+                             _______, _______, _______, KC_ENT, _______,  _______, _______, KC_DOT 
 ),
 /* RAISE
  * ,-----------------------------------------.                    ,-----------------------------------------.
@@ -80,25 +80,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------.                    ,-----------------------------------------.
  * |      |      |      |      |      |      |                    | BOOT |      |      |      |      |      |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |      |      |      |      | BR - | BR + |                    |      |      |      |      |      | PAUS |
+ * |      |      |      |      | BR - | BR + |                    | OLBR+| OLBR-|      |      |      | PAUS |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * | caps |      |      |      |      |      |-------.    ,-------|      |      |      |      |      |      |
+ * | caps |      |      |      |      |      |-------.    ,-------|      |      | F23  |      |      |      |
  * |------+------+------+------+------+------|       |    |       |------+------+------+------+------+------|
  * |      |      |      |      | F13  |      |-------|    |-------|      | F14  |      |      |      |      |
  * `-----------------------------------------/       /     \      \-----------------------------------------'
- *                   | LAlt | LGUI |LOWER | /Space  /       \Enter \  |RAISE |BackSP| RGUI |
+ *                   | LAlt | LGUI |LOWER | /Space  /       \Enter \  |RAISE |BackSP| RCTL|
  *                   |      |      |      |/       /         \      \ |      |      |      |
  *                   `----------------------------'           '------''--------------------'
  *
  * PAUS = mapped to system lock by OS
  * F13 = discord deafen
  * F14 = discord mute
+ * F23 = konsole > new tab
+ * OLBR+/- = increase/decrease brightness of oled screen 
  *
  */
   [_SYSTM] = LAYOUT(
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   QK_BOOT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_BRID, KC_BRIU,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PAUS,
-  KC_CAPS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_BRID, KC_BRIU,                   RGB_VAI, RGB_VAD, XXXXXXX, XXXXXXX, XXXXXXX, KC_PAUS,
+  KC_CAPS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,                   XXXXXXX, XXXXXXX, KC_F23 , XXXXXXX, XXXXXXX, XXXXXXX,
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_F13 , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_F14 , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                              _______, _______, _______, _______, _______,  _______, _______, _______
   )
@@ -118,6 +120,28 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     if (is_keyboard_master())
         return OLED_ROTATION_270;  // flips the display 90degrees if offhand
     return rotation;
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record){
+
+    // control brightness of oled screen w/ keypresses
+    switch (keycode) {
+        case RGB_VAI:
+            if (record->event.pressed) {
+                // on keypress
+                const uint8_t brightness_val = oled_get_brightness() + 16;
+                oled_set_brightness(brightness_val);
+            }
+            break;
+        case RGB_VAD:
+            if (record->event.pressed) {
+                const uint8_t brightness_val = oled_get_brightness() - 16;
+                oled_set_brightness(brightness_val);
+            }
+            break;
+    }
+    
+    return true;
 }
 
 bool oled_task_user(void) {
