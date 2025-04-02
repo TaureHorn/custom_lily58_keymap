@@ -122,8 +122,6 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     return rotation;
 }
 
-
-
 bool oled_task_user(void) {
 
     if (is_keyboard_master()) {
@@ -277,18 +275,18 @@ bool oled_task_user(void) {
 
         // write current active layer
         switch (get_highest_layer(layer_state)) {
-        case _QWERTY:
-            oled_write_raw_P(layer_0, sizeof(layer_0)); 
-            break;
-        case _LOWER:
-            oled_write_raw_P(layer_1, sizeof(layer_1)); 
-            break;
-        case _RAISE:
-            oled_write_raw_P(layer_2, sizeof(layer_2)); 
-            break;
-        case _SYSTM:
-            oled_write_raw_P(layer_3, sizeof(layer_3)); 
-            break;
+            case _QWERTY:
+                oled_write_raw_P(layer_0, sizeof(layer_0)); 
+                break;
+            case _LOWER:
+                oled_write_raw_P(layer_1, sizeof(layer_1)); 
+                break;
+            case _RAISE:
+                oled_write_raw_P(layer_2, sizeof(layer_2)); 
+                break;
+            case _SYSTM:
+                oled_write_raw_P(layer_3, sizeof(layer_3)); 
+                break;
         }
 
         // read state for caps lock
