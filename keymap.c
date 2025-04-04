@@ -85,9 +85,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------.                    ,-----------------------------------------.
  * |      |      |      |      |      |      |                    |      |      |      |      |      |      |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |      | BR-  | BR+  |      |  {   |  }   |                    |  F12 |  F7  |  F8  |  F9  |      | PAUS |
+ * |      | BR-  | BR+  | PGUP |  {   |  }   |                    |  F12 |  F7  |  F8  |  F9  |      | PAUS |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * | caps |      |      |      | F14  |      |-------.    ,-------|  F11 |  F4  |  F5  |  F6  |      |      |
+ * | caps |      |      | PGDN | F14  |      |-------.    ,-------|  F11 |  F4  |  F5  |  F6  |      |      |
  * |------+------+------+------+------+------|       |    |       |------+------+------+------+------+------|
  * |      |      |      |      | F13  |      |-------|    |-------|  F10 |  F1  |  F2  |  F3  |      |      |
  * `-----------------------------------------/       /     \      \-----------------------------------------'
@@ -103,8 +103,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_S] = LAYOUT(
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  XXXXXXX, KC_BRID, KC_BRIU, XXXXXXX, KC_LCBR, KC_RCBR,                        KC_F12,   KC_F7,   KC_F8,   KC_F9, XXXXXXX, KC_PAUS,
-  KC_CAPS, XXXXXXX, XXXXXXX, XXXXXXX,  KC_F14, _______,                        KC_F11,   KC_F4,   KC_F5,   KC_F6, XXXXXXX, XXXXXXX,
+  XXXXXXX, KC_BRID, KC_BRIU, KC_PGUP, KC_LCBR, KC_RCBR,                        KC_F12,   KC_F7,   KC_F8,   KC_F9, XXXXXXX, KC_PAUS,
+  KC_CAPS, XXXXXXX, XXXXXXX, KC_PGDN,  KC_F14, _______,                        KC_F11,   KC_F4,   KC_F5,   KC_F6, XXXXXXX, XXXXXXX,
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  KC_F13, XXXXXXX, XXXXXXX,     XXXXXXX,  KC_F10,   KC_F1,   KC_F2,   KC_F3, XXXXXXX, XXXXXXX,
                              XXXXXXX, _______, _______, QK_BOOT,     _______, _______, _______, XXXXXXX 
   )
